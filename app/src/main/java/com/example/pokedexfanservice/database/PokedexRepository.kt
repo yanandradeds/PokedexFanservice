@@ -8,7 +8,7 @@ import com.example.pokedexfanservice.model.PokemonModel
 
 class PokedexRepository private constructor(ctx: Context) {
 
-    private val pokedexDatabase = PokedexDatabase(ctx)
+    val pokedexDatabase = PokedexDatabase(ctx)
     private val dbWriter = pokedexDatabase.writableDatabase
     private val dbReadable = pokedexDatabase.readableDatabase
 
@@ -113,38 +113,5 @@ class PokedexRepository private constructor(ctx: Context) {
 
     }
 
-    fun execQueryDB(query: String){
-
-        dbWriter.execSQL(query)
-
-    }
-
-    fun hasTable(tableName: String): Boolean {
-
-        return try {
-
-            dbReadable.query(tableName, null, null, null, null, null, null)
-            true
-
-        } catch(e: SQLiteException) {
-            false
-
-        }
-
-
-    }
-
-    fun dropTable() {
-
-        try {
-            dbWriter.execSQL("DROP TABLE Pokemon")
-
-        }
-        catch (e: SQLiteException) {
-
-            e.printStackTrace()
-        }
-
-    }
 
 }

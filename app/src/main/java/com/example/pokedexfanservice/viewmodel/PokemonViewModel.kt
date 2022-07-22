@@ -1,6 +1,7 @@
 package com.example.pokedexfanservice.viewmodel
 
 import android.app.Application
+import android.database.Cursor
 import androidx.core.database.getStringOrNull
 import androidx.lifecycle.AndroidViewModel
 import com.example.pokedexfanservice.database.Constants
@@ -13,8 +14,10 @@ class PokemonViewModel (application: Application)  : AndroidViewModel(applicatio
 
     private val pokedexRepository = PokedexRepository.getInstance(application)
 
+
     // Retorna lista com todos PokemonModel até o numero 151
     fun getAll(): List<PokemonModel> {
+
 
         val listPKM = ArrayList<PokemonModel>()
         val cursorTablePokemon = pokedexRepository.select(Constants.POKEMON_TABLE, null, null, null,null,null,null)
@@ -85,7 +88,21 @@ class PokemonViewModel (application: Application)  : AndroidViewModel(applicatio
 
     }
 
-    fun getSpritePokemon(id: Int, column: String): String {
+    fun searchBlob(id: Int): Cursor{
+
+        return pokedexRepository.select(Constants.BLOB_TABLE, null, "id = ?",
+            arrayOf(id.toString()), null, null, null)
+
+    }
+
+    fun searchBlob(): Cursor {
+
+        return pokedexRepository.select(Constants.BLOB_TABLE, null, null,
+            null, null, null, null)
+
+    }
+
+    fun getSpritePokemon(column: String): String {
 
         val cursor = pokedexRepository.select(Constants.SPRITE_TABLE, arrayOf(column),null,null,null,null,null)
         cursor.moveToNext()

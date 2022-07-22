@@ -13,7 +13,7 @@ class Constants private constructor(){
         const val WHERE = "WHERE"
         const val SPRITE_TABLE = "Sprite"
         const val TYPE_TABLE = "Type"
-
+        const val BLOB_TABLE = "Blob"
 
     }
 
