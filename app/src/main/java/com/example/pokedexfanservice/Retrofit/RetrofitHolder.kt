@@ -8,7 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitHolder private constructor() {
 
-
+    //Classe com intuito de estabelecer uma comunicação com API (Pokeapi)
+    //Como os dados foram recebidos e salvos no DB a classe esta inutilizada
 
     companion object {
 
