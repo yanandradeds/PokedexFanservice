@@ -1,12 +1,15 @@
 package com.example.pokedexfanservice.viewmodel
 
 import android.app.Application
-import android.database.Cursor
+import android.content.Context
+import android.graphics.BitmapFactory
+import android.widget.ImageView
 import androidx.core.database.getStringOrNull
 import androidx.lifecycle.AndroidViewModel
-import com.example.pokedexfanservice.database.Constants
+import com.example.pokedexfanservice.constants.DatabaseConstants
 import com.example.pokedexfanservice.database.PokedexRepository
-import com.example.pokedexfanservice.database.SpriteConstants
+import com.example.pokedexfanservice.constants.PokemonConstants
+import com.example.pokedexfanservice.constants.SpriteConstants
 import com.example.pokedexfanservice.model.*
 
 
@@ -14,100 +17,88 @@ class PokemonViewModel (application: Application)  : AndroidViewModel(applicatio
 
     private val pokedexRepository = PokedexRepository.getInstance(application)
 
-
     // Retorna lista com todos PokemonModel até o numero 151
-    fun getAll(): List<PokemonModel> {
 
+    fun teste(ctx: Context) {
 
-        val listPKM = ArrayList<PokemonModel>()
-        val cursorTablePokemon = pokedexRepository.select(Constants.POKEMON_TABLE, null, null, null,null,null,null)
-        val cursorTableSprite = pokedexRepository.select(Constants.SPRITE_TABLE, null, null, null,null,null,null)
-        val cursorTableType = pokedexRepository.select(Constants.TYPE_TABLE, null, null, null,null,null,null)
-        pokedexRepository.newTable()
+        pokedexRepository.teste(ctx)
+    }
 
-        while(cursorTablePokemon.moveToNext()){
-            cursorTableSprite.moveToNext()
-            cursorTableType.moveToNext()
+    fun getAllPokemonModel(): ArrayList<PokemonModel> {
 
-            val indexId = cursorTablePokemon.getColumnIndex("id")
-            val indexName = cursorTablePokemon.getColumnIndex("name")
-            val indexBackDefault = cursorTableSprite.getColumnIndex(SpriteConstants.BACK_DEFAULT)
-            val indexBackFemale: Int = cursorTableSprite.getColumnIndex(SpriteConstants.BACK_FEMALE)
-            val indexBackShiny = cursorTableSprite.getColumnIndex(SpriteConstants.BACK_SHINY)
-            val indexBackShinyFemale = cursorTableSprite.getColumnIndex(SpriteConstants.BACK_SHINY_FEMALE)
-            val indexFrontDefault = cursorTableSprite.getColumnIndex(SpriteConstants.FRONT_DEFAULT)
-            val indexFrontFemale = cursorTableSprite.getColumnIndex(SpriteConstants.FRONT_FEMALE)
-            val indexFrontShiny = cursorTableSprite.getColumnIndex(SpriteConstants.FRONT_SHINY)
-            val indexFrontShinyFemale = cursorTableSprite.getColumnIndex(SpriteConstants.FRONT_SHINY_FEMALE)
-            val indexArtwork = cursorTableSprite.getColumnIndex(SpriteConstants.OFFICIAL_ARTWORK_COLUMN)
+        val listPokemonModel = arrayListOf<PokemonModel>()
+        val cursor = pokedexRepository.select(DatabaseConstants.POKEMON_TABLE, null, null, null ,null ,null ,null)
 
-            val nextSpritePokemon = SpriteModel(
-                cursorTableSprite.getString(indexBackDefault),
-                cursorTableSprite.getStringOrNull(indexBackFemale),
-                cursorTableSprite.getString(indexBackShiny),
-                cursorTableSprite.getStringOrNull(indexBackShinyFemale),
-                cursorTableSprite.getString(indexFrontDefault),
-                cursorTableSprite.getStringOrNull(indexFrontFemale),
-                cursorTableSprite.getString(indexFrontShiny),
-                cursorTableSprite.getStringOrNull(indexFrontShinyFemale),
-                OtherModel(
-                    OfficialArt( cursorTableSprite.getString(indexArtwork) )
-                )
-            )
+        while(cursor.moveToNext()) {
 
-            val indexNameType = cursorTableType.getColumnIndex("firstType")
-            val indexSecondNameType = cursorTableType.getColumnIndex("secondType")
+            val indexId = cursor.getColumnIndex(PokemonConstants.ID_COLUMN)
+            val indexName = cursor.getColumnIndex(PokemonConstants.NAME_COLUMN)
+            val indexType = cursor.getColumnIndex(PokemonConstants.TYPE_COLUMN)
+            val indexTypeTwo = cursor.getColumnIndex(PokemonConstants.TYPE2_COLUMN)
 
+            //indexID usados duas vezes para ja manter a ordem no arraylist
 
-            val nextTypePokemon = ArrayList<TypeModel>()
-
-            nextTypePokemon.add( TypeModel(
-                TypeName( cursorTableType.getString(indexNameType) )
-            ) )
-
-            if(cursorTableType.getString(indexSecondNameType) != "") {
-
-                nextTypePokemon.add( TypeModel (
-                    TypeName( cursorTableType.getString(indexSecondNameType) )
-                ) )
-
-            }
-
-            val nextPokemon = PokemonModel(
-                cursorTablePokemon.getInt(indexId),
-                cursorTablePokemon.getString(indexName),
-                nextSpritePokemon,
-                nextTypePokemon
-            )
-
-            listPKM.add(nextPokemon)
+            listPokemonModel.add(PokemonModel(
+                cursor.getInt(indexId),
+                cursor.getString(indexName),
+                cursor.getString(indexType),
+                cursor.getStringOrNull(indexTypeTwo)
+            ))
 
         }
 
-        return listPKM
+        return listPokemonModel
+    }
+
+
+    fun getAllSpriteModel(): ArrayList<SpriteModel> {
+
+        val arrayColumn = arrayOf(
+            SpriteConstants.ID_COLUMN,
+            SpriteConstants.FRONT_DEFAULT,
+            SpriteConstants.OFFICIAL_ARTWORK_COLUMN)
+
+        val listSpriteModel = arrayListOf<SpriteModel>()
+        val cursor = pokedexRepository.select(
+            DatabaseConstants.SPRITE_TABLE,
+            arrayColumn,null, null, null, null, null)
+
+        while(cursor.moveToNext()) {
+
+            val indexId = cursor.getColumnIndex(SpriteConstants.ID_COLUMN)
+            val indexFront = cursor.getColumnIndex(SpriteConstants.FRONT_DEFAULT)
+            val indexOfficialArt = cursor.getColumnIndex(SpriteConstants.OFFICIAL_ARTWORK_COLUMN)
+
+            listSpriteModel.add(
+                SpriteModel(
+                    cursor.getInt(indexId),
+                    cursor.getBlob(indexFront),
+                    cursor.getBlob(indexOfficialArt)
+            ))
+
+        }
+
+        return listSpriteModel
+    }
+
+    fun setPrincipalImageFirstTime(view : ImageView) {
+
+        val sprite = getSpritePokemon(1,SpriteConstants.OFFICIAL_ARTWORK_COLUMN)
+        val bitmap = BitmapFactory.decodeByteArray(sprite,0,sprite.size)
+        view.setImageBitmap(bitmap)
 
     }
 
-    fun searchBlob(id: Int): Cursor{
+    fun getSpritePokemon(id: Int, column: String): ByteArray {
 
-        return pokedexRepository.select(Constants.BLOB_TABLE, null, "id = ?",
-            arrayOf(id.toString()), null, null, null)
-
-    }
-
-    fun searchBlob(): Cursor {
-
-        return pokedexRepository.select(Constants.BLOB_TABLE, null, null,
-            null, null, null, null)
-
-    }
-
-    fun getSpritePokemon(column: String): String {
-
-        val cursor = pokedexRepository.select(Constants.SPRITE_TABLE, arrayOf(column),null,null,null,null,null)
+        val cursor = pokedexRepository.select(DatabaseConstants.SPRITE_TABLE, arrayOf(column),"id = $id",null,null,null,null)
         cursor.moveToNext()
 
-        return cursor.getString(0)
+        return cursor.getBlob(0)
+
+    }
+
+    fun getPokemonModel() {
 
     }
 
@@ -120,24 +111,17 @@ class PokemonViewModel (application: Application)  : AndroidViewModel(applicatio
 
         var count = 1
 
-        if(false) {
-
-            pokedexRepository.execQueryDB("DELETE FROM Pokemon")
-            pokedexRepository.execQueryDB("DELETE FROM Sprite")
-            pokedexRepository.execQueryDB("DELETE FROM Type")
-            pokedexRepository.execQueryDB("ALTER TABLE Sprite ADD COLUMN official_artwork")
-
-            while (count <= 151) {
+        while (count <= 151) {
 
                 holderConnection.get(count).enqueue(callback())
                 count++
-            }
-
         }
 
     }
 
     //Responsavel por inserir os dados no DB
+
+    // Models desatualizados!
 
     private fun callback() : Callback<PokemonModel>{
 

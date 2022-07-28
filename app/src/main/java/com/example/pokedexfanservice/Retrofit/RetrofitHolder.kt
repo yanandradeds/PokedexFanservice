@@ -1,6 +1,6 @@
 package com.example.pokedexfanservice.Retrofit
 
-import com.example.pokedexfanservice.database.Constants
+import com.example.pokedexfanservice.constants.DatabaseConstants
 import com.example.pokedexfanservice.model.PokemonModel
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -22,7 +22,7 @@ class RetrofitHolder private constructor() {
 
                 retrofit = Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(Constants.BASEURL)
+                    .baseUrl(DatabaseConstants.BASEURL)
                     .build()
 
                 service = retrofit.create(ServiceGet::class.java)

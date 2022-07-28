@@ -1,50 +1,70 @@
 package com.example.pokedexfanservice.adapter
 
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.pokedexfanservice.databinding.RowBinding
 import com.example.pokedexfanservice.model.PokemonModel
-import com.example.pokedexfanservice.view.OnPokedexListener
+import com.example.pokedexfanservice.model.SpriteModel
+import com.example.pokedexfanservice.listener.CustomListener
 
 
 class PokedexAdapter : RecyclerView.Adapter<PokedexViewHolder>() {
 
-    var listPokedex: List<PokemonModel> = listOf()
-    lateinit var listener: OnPokedexListener
+    private var listPokemonModel: ArrayList<PokemonModel> = arrayListOf()
+    private var listSpriteModel: ArrayList<SpriteModel> = arrayListOf()
+    private lateinit var listener: CustomListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokedexViewHolder {
 
         val item = RowBinding.inflate(LayoutInflater.from(parent.context))
-        return PokedexViewHolder(item, listener)
+        return PokedexViewHolder(item)
 
     }
 
-    override fun onBindViewHolder(holder: PokedexViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PokedexViewHolder, pos: Int) {
 
-        val pokemonModel = listPokedex[position]
-        val urlFront = pokemonModel.sprites.front_default
-        val imageView = holder.binding.imagePokemonSprite
+        val pokemon = listPokemonModel[pos]
+        val sprite = listSpriteModel[pos]
+        val bitmap = BitmapFactory.decodeByteArray(sprite.front_default,0,sprite.front_default.size)
 
+        holder.binding.imagePokemonSprite.setImageBitmap(bitmap)
+        holder.setListener(pokemon,sprite,listener)
 
-        holder.bind(pokemonModel)
-        Glide.with(imageView).load(urlFront).into(imageView)
 
     }
 
 
     override fun getItemCount(): Int {
-        return listPokedex.size
+        return listPokemonModel.size
     }
 
-    fun updateList(listDB: List<PokemonModel>) {
-        listPokedex = listDB
+
+    fun updateLists(completeListPokemon: ArrayList<PokemonModel>, completeListSprite: ArrayList<SpriteModel>) {
+        listPokemonModel = completeListPokemon
+        listSpriteModel = completeListSprite
 
     }
 
-    fun attachListener(listenerReceived: OnPokedexListener){
-        listener = listenerReceived
+    fun createListener(imageView: ImageView, nameView: TextView, typeView: TextView, descView: TextView) {
+
+        listener = object: CustomListener {
+
+            override fun onClick(spriteModel: SpriteModel, pokemonModel: PokemonModel) {
+                val bitmap = BitmapFactory.decodeByteArray (
+                    spriteModel.officialArtworkFront,0,spriteModel.officialArtworkFront.size)
+
+                imageView.setImageBitmap(bitmap)
+                nameView.text = pokemonModel.name
+                typeView.text = pokemonModel.type
+                descView.text = pokemonModel.name
+            }
+
+        }
+
     }
 
 

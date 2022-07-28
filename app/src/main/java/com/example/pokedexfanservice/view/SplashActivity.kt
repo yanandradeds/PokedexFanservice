@@ -23,12 +23,7 @@ class SplashActivity : AppCompatActivity() {
         pokemonViewModel = ViewModelProvider(this).get(PokemonViewModel::class.java)
         supportActionBar!!.hide()
 
-        val cursor = pokemonViewModel.searchBlob(15)
-        cursor.moveToNext()
-        val blob = cursor.getBlob(1)
-        val bitmap = BitmapFactory.decodeByteArray(blob,0,blob.size)
 
-        Glide.with(this).load(bitmap).into(binding.imageviewSplash)
         startActivity(Intent(this,MainActivityView::class.java))
         finish()
 

@@ -3,8 +3,9 @@ package com.example.pokedexfanservice.database
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.example.pokedexfanservice.constants.DatabaseConstants
 
-class PokedexDatabase(ctx: Context) : SQLiteOpenHelper(ctx, Constants.DATABASE_NAME, null, Constants.VERSION) {
+class PokedexDatabase(ctx: Context) : SQLiteOpenHelper(ctx, DatabaseConstants.DATABASE_NAME, null, DatabaseConstants.VERSION) {
 
 
     override fun onCreate(db: SQLiteDatabase) {

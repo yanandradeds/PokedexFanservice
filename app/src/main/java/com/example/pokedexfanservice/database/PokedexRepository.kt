@@ -4,11 +4,25 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteException
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
+import android.os.Handler
+import android.os.Looper
+import androidx.core.database.getStringOrNull
+import androidx.core.os.HandlerCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import com.example.pokedexfanservice.constants.DatabaseConstants
+import com.example.pokedexfanservice.constants.SpriteConstants
 import com.example.pokedexfanservice.model.PokemonModel
+import java.io.ByteArrayOutputStream
+import java.lang.Exception
 
 class PokedexRepository private constructor(ctx: Context) {
 
-    val pokedexDatabase = PokedexDatabase(ctx)
+    private val pokedexDatabase = PokedexDatabase(ctx)
     private val dbWriter = pokedexDatabase.writableDatabase
     private val dbReadable = pokedexDatabase.readableDatabase
 
@@ -27,80 +41,8 @@ class PokedexRepository private constructor(ctx: Context) {
 
     }
 
-    fun createTable () {
+    fun teste (ctx: Context) {
 
-
-//        dbWriter.execSQL(Constants.CREATE_TABLE + " " + Constants.SPRITE_TABLE + " ("
-//                + "id integer primary key,"
-//                + SpriteConstants.BACK_DEFAULT + " TEXT,"
-//                + SpriteConstants.BACK_FEMALE + " TEXT,"
-//                + SpriteConstants.BACK_SHINY + " TEXT,"
-//                + SpriteConstants.BACK_SHINY_FEMALE + " TEXT,"
-//                + SpriteConstants.FRONT_DEFAULT + " TEXT,"
-//                + SpriteConstants.FRONT_FEMALE + " TEXT,"
-//                + SpriteConstants.FRONT_SHINY + " TEXT,"
-//                + SpriteConstants.FRONT_SHINY_FEMALE + " TEXT)")
-//
-
-        dbWriter.execSQL(Constants.CREATE_TABLE + " " + Constants.POKEMON_TABLE
-                + " (id Integer primary key, name TEXT)")
-
-    }
-
-    fun newTable() {
-
-
-
-    }
-
-
-    fun insertInto(pm: PokemonModel) {
-
-        try {
-
-            val contentValuesPokemon = ContentValues()
-            contentValuesPokemon.put("id", pm.id)
-            contentValuesPokemon.put("name", pm.name)
-
-            dbWriter.insert(Constants.POKEMON_TABLE, null, contentValuesPokemon)
-
-            val contentValuesSprite = ContentValues()
-
-            contentValuesSprite.put("id", pm.id)
-            contentValuesSprite.put(SpriteConstants.BACK_DEFAULT, pm.sprites.back_default)
-            contentValuesSprite.put(SpriteConstants.BACK_FEMALE, pm.sprites.back_female)
-            contentValuesSprite.put(SpriteConstants.BACK_SHINY, pm.sprites.back_shiny)
-            contentValuesSprite.put(SpriteConstants.BACK_SHINY_FEMALE, pm.sprites.back_shiny_female)
-            contentValuesSprite.put(SpriteConstants.FRONT_DEFAULT, pm.sprites.front_default)
-            contentValuesSprite.put(SpriteConstants.FRONT_FEMALE, pm.sprites.front_female)
-            contentValuesSprite.put(SpriteConstants.FRONT_SHINY, pm.sprites.front_shiny)
-            contentValuesSprite.put(
-                SpriteConstants.FRONT_SHINY_FEMALE,
-                pm.sprites.front_shiny_female
-            )
-            contentValuesSprite.put(SpriteConstants.OFFICIAL_ARTWORK_COLUMN,pm.sprites.other.officialArtwork.front_default)
-
-            dbWriter.insert(Constants.SPRITE_TABLE, null, contentValuesSprite)
-
-            val contentValuesType = ContentValues()
-            contentValuesType.put("id", pm.id)
-            contentValuesType.put("firstType", pm.types[0].type.name)
-
-            if (pm.types.size > 1 && pm.types[1].type.name != "") {
-                contentValuesType.put("secondType", pm.types[1].type.name)
-
-            } else {
-
-                contentValuesType.put("secondType", "")
-
-            }
-
-            dbWriter.insert(Constants.TYPE_TABLE, null, contentValuesType)
-
-        } catch (e: SQLiteException) {
-
-            e.printStackTrace()
-        }
 
     }
 
