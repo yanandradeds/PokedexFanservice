@@ -41,11 +41,6 @@ class PokedexRepository private constructor(ctx: Context) {
 
     }
 
-    fun teste (ctx: Context) {
-
-
-    }
-
     fun select(
         table: String, columns: Array<String>?, selection: String?, selectionArgs: Array<String>?,
         groupBy: String?, having: String?, orderBy: String?

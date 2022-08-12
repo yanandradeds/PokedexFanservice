@@ -3,27 +3,31 @@ package com.example.pokedexfanservice.viewmodel
 import android.app.Application
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
+import android.media.Image
+import android.os.Environment
 import android.widget.ImageView
 import androidx.core.database.getStringOrNull
 import androidx.lifecycle.AndroidViewModel
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableResource
+import com.example.pokedexfanservice.R
 import com.example.pokedexfanservice.constants.DatabaseConstants
 import com.example.pokedexfanservice.database.PokedexRepository
 import com.example.pokedexfanservice.constants.PokemonConstants
 import com.example.pokedexfanservice.constants.SpriteConstants
+import com.example.pokedexfanservice.databinding.ActivityMainBinding
 import com.example.pokedexfanservice.model.*
+import com.example.pokedexfanservice.view.MainActivityView
+import java.io.File
 
 
 class PokemonViewModel (application: Application)  : AndroidViewModel(application){
 
     private val pokedexRepository = PokedexRepository.getInstance(application)
 
-    // Retorna lista com todos PokemonModel até o numero 151
 
-    fun teste(ctx: Context) {
-
-        pokedexRepository.teste(ctx)
-    }
-
+    // Retorna lista com todos PokemonModel
     fun getAllPokemonModel(): ArrayList<PokemonModel> {
 
         val listPokemonModel = arrayListOf<PokemonModel>()
@@ -50,7 +54,7 @@ class PokemonViewModel (application: Application)  : AndroidViewModel(applicatio
         return listPokemonModel
     }
 
-
+    //Retorna lista com todas SpritesModel
     fun getAllSpriteModel(): ArrayList<SpriteModel> {
 
         val arrayColumn = arrayOf(
@@ -81,6 +85,7 @@ class PokemonViewModel (application: Application)  : AndroidViewModel(applicatio
         return listSpriteModel
     }
 
+    //Carrega imagem da tela principal
     fun setPrincipalImageFirstTime(view : ImageView) {
 
         val sprite = getSpritePokemon(1,SpriteConstants.OFFICIAL_ARTWORK_COLUMN)
@@ -89,6 +94,7 @@ class PokemonViewModel (application: Application)  : AndroidViewModel(applicatio
 
     }
 
+    //Retorna SpriteModel com base no id e coluna (front_default ou official_artwork)
     fun getSpritePokemon(id: Int, column: String): ByteArray {
 
         val cursor = pokedexRepository.select(DatabaseConstants.SPRITE_TABLE, arrayOf(column),"id = $id",null,null,null,null)
@@ -101,6 +107,8 @@ class PokemonViewModel (application: Application)  : AndroidViewModel(applicatio
     fun getPokemonModel() {
 
     }
+
+
 
     /*  Busca e insere os dados da PokeAPI no banco de dados,
     usado na primeira execução do aplicativo e depois desativado

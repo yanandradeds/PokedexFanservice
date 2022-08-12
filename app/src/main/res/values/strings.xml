@@ -2,4 +2,5 @@
     <string name="app_name">PokedexFanservice</string>
     <string name="default_name_pokemon">1 Bulbassauro</string>
     <string name="glide">Image of pokemon to test Glide</string>
+    <string name="footer_title">POKEDEX FAN SERVICE</string>
 </resources>

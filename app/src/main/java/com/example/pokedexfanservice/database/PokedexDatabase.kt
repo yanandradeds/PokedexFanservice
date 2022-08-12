@@ -10,17 +10,10 @@ class PokedexDatabase(ctx: Context) : SQLiteOpenHelper(ctx, DatabaseConstants.DA
 
     override fun onCreate(db: SQLiteDatabase) {
 
-        //db.execSQL("CREATE TABLE Pokemon (id integer primary key, name text, front text, back text, fstType text, sndType text)")
-
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-
-
-
+        
     }
-
-
-
 
 }
