@@ -19,7 +19,7 @@ class DetailsViewModel: ViewModel() {
 
         val viewImagePrincipal = binding.imagePrincipal
 
-        Glide.with(viewImagePrincipal).load(sprite.officialArtworkFront).into(viewImagePrincipal)
+
 
         
 
@@ -38,34 +38,7 @@ class DetailsViewModel: ViewModel() {
 
     fun setTypeImage(imageView: ImageView, pokemon: PokemonModel, secondType: Boolean) {
 
-        val type: String? =
-            if(secondType) pokemon.type2
-            else pokemon.type
 
-
-        when (type) {
-
-            "grass" -> imageView.setImageResource(TypeImageConstants.GRASS)
-            "poison" -> imageView.setImageResource(TypeImageConstants.POISON)
-            "fire" -> imageView.setImageResource(TypeImageConstants.FIRE)
-            "ice" -> imageView.setImageResource(TypeImageConstants.ICE)
-            "electric" -> imageView.setImageResource(TypeImageConstants.ELECTRIC)
-            "steel" -> imageView.setImageResource(TypeImageConstants.STEEL)
-            "water" -> imageView.setImageResource(TypeImageConstants.WATER)
-            "dark" -> imageView.setImageResource(TypeImageConstants.DARK)
-            "ghost" -> imageView.setImageResource(TypeImageConstants.GHOST)
-            "normal" -> imageView.setImageResource(TypeImageConstants.NORMAL)
-            "dragon" -> imageView.setImageResource(TypeImageConstants.DRAGON)
-            "fighting" -> imageView.setImageResource(TypeImageConstants.FIGHTING)
-            "flying" -> imageView.setImageResource(TypeImageConstants.FLYING)
-            "fairy" -> imageView.setImageResource(TypeImageConstants.FAIRY)
-            "ground" -> imageView.setImageResource(TypeImageConstants.GROUND)
-            "rock" -> imageView.setImageResource(TypeImageConstants.ROCK)
-            "bug" -> imageView.setImageResource(TypeImageConstants.BUG)
-            "psychic" -> imageView.setImageResource(TypeImageConstants.PSYCHIC)
-            null -> return
-
-        }
 
     }
 

@@ -8,6 +8,7 @@ import com.example.pokedexfanservice.databinding.ActivityDetailsViewBinding
 import com.example.pokedexfanservice.model.PokemonModel
 import com.example.pokedexfanservice.model.SpriteModel
 import com.example.pokedexfanservice.viewmodel.DetailsViewModel
+import com.squareup.picasso.Picasso
 import java.lang.NullPointerException
 
 class DetailsActivityView : AppCompatActivity() {
@@ -31,22 +32,8 @@ class DetailsActivityView : AppCompatActivity() {
             null
         }
 
-        val pokemonModel = PokemonModel(
-            bundle.getInt("id"),
-            bundle.getString("name")!!,
-            bundle.getString("type")!!,
-            type2
-        )
+        Picasso.get().load(bundle.getString("artwork")).into(binding.imagePrincipal)
 
-        val spriteModel = SpriteModel(
-            bundle.getInt("id"),
-            bundle.getByteArray("front")!!,
-            bundle.getByteArray("artwork")!!
-        )
-
-        viewModel.holderStyle(binding, pokemonModel, spriteModel)
-        viewModel.setTypeImage(binding.imageTypeOne,pokemonModel,false)
-        viewModel.setTypeImage(binding.imageTypeSecond,pokemonModel,true)
 
 
 

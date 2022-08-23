@@ -1,75 +1,41 @@
 package com.example.pokedexfanservice.adapter
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.BitmapFactory
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pokedexfanservice.R
-import com.example.pokedexfanservice.databinding.RowBinding
-import com.example.pokedexfanservice.databinding.RowBinding.inflate
-import com.example.pokedexfanservice.model.PokemonModel
-import com.example.pokedexfanservice.model.SpriteModel
-import com.example.pokedexfanservice.listener.CustomListener
-import com.example.pokedexfanservice.view.DetailsActivityView
-import com.example.pokedexfanservice.view.MainActivityView
+import com.example.pokedexfanservice.databinding.RecycleViewItemBinding
+import com.example.pokedexfanservice.model.tablemodel.PokemonTableModel
 
 
-class PokedexAdapter : RecyclerView.Adapter<PokedexViewHolder>() {
 
-    private var listPokemonModel: ArrayList<PokemonModel> = arrayListOf()
-    private var listSpriteModel: ArrayList<SpriteModel> = arrayListOf()
+class PokedexAdapter(private val list: List<PokemonTableModel>) : RecyclerView.Adapter<PokedexViewHolder>() {
+
     private lateinit var context: Context
-    private lateinit var binding: RowBinding
+    private lateinit var binding: RecycleViewItemBinding
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokedexViewHolder {
 
         context = parent.context
-        binding = inflate(LayoutInflater.from(context))
-        return PokedexViewHolder(binding)
+        binding = RecycleViewItemBinding.inflate(LayoutInflater.from(context))
 
+        return PokedexViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: PokedexViewHolder, pos: Int) {
+    override fun onBindViewHolder(itemBinding: PokedexViewHolder, pos: Int) {
 
-        val pokemon = listPokemonModel[pos]
-        val sprite = listSpriteModel[pos]
-        val imageView = holder.binding.imagePokemonSprite
-        val bitmap = BitmapFactory.decodeByteArray(sprite.front_default,0,sprite.front_default.size)
+        val pokemon = list[pos]
 
-
-        imageView.setImageBitmap(bitmap)
-        holder.setListener(pokemon,sprite,customListener,context)
+        itemBinding.onClickListener(pokemon,context)
+        itemBinding.setItemImage(pokemon)
 
     }
 
 
     override fun getItemCount(): Int {
-        return listPokemonModel.size
+        return list.size
     }
-
-    private val customListener = object : CustomListener {
-
-        override fun onClick(sprite : SpriteModel, pokemon: PokemonModel, context: Context, intent: Intent) {
-
-            context.startActivity(intent)
-
-        }
-
-    }
-
-
-    fun updateLists(completeListPokemon: ArrayList<PokemonModel>, completeListSprite: ArrayList<SpriteModel>) {
-        listPokemonModel = completeListPokemon
-        listSpriteModel = completeListSprite
-
-
-    }
-
 
 }
