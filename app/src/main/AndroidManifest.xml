@@ -11,24 +11,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PokedexFanservice">
-
         <activity
-            android:name=".view.StarterActivityView"
-            android:exported="true">
+            android:name=".FilterActivityView"
+            android:exported="false"
+            android:label="@string/title_activity_filter_view"
+            android:theme="@style/Theme.PokedexFanservice.NoActionBar" />
+        <activity
+            android:name=".view.LoadingActivity"
+            android:exported="true"
+            android:label="@string/title_activity_loading"
+            android:theme="@style/Theme.PokedexFanservice.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".view.DetailsActivityView"
-            android:exported="false" />
-        <activity
-            android:name=".view.PokedexActivityView"
-            android:exported="false">
-
-        </activity>
+            android:name=".view.MainActivityView"
+            android:exported="false"></activity>
     </application>
 
 </manifest>

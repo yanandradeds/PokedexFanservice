@@ -1,4 +1,4 @@
-package com.example.pokedexfanservice.model.tablemodel
+package com.example.pokedexfanservice.model
 
 import androidx.annotation.Nullable
 import androidx.room.ColumnInfo
@@ -11,7 +11,7 @@ import java.sql.Blob
 class PokemonTableModel {
 
     @ColumnInfo
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     var id: Int = 0
 
     @ColumnInfo
@@ -23,9 +23,4 @@ class PokemonTableModel {
     @ColumnInfo
     var secondType: String? = ""
 
-    @ColumnInfo
-    var official_artwork: String = ""
-
-    @ColumnInfo
-    var front_default: String = ""
 }

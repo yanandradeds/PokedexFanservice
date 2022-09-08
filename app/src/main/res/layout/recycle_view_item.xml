@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
@@ -11,24 +11,17 @@
         android:id="@+id/text_row_pokemon_id"
         android:layout_width="wrap_content"
         android:layout_height="15dp"
-        android:textColor="@color/white"
         android:fontFamily="@font/font_pokemon_nds"
         android:textSize="16sp"
         android:textAlignment="center"
-        android:layout_marginStart="16dp"
         android:text="110"
         />
 
 
     <ImageView
-
         android:id="@+id/image_pokemon_sprite"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:adjustViewBounds="true"
-
-
-
+        android:layout_width="100dp"
+        android:layout_height="150dp"
         />
 
-</LinearLayout>
+</FrameLayout>

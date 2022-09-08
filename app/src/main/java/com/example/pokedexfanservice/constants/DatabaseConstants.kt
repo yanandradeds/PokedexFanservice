@@ -8,7 +8,7 @@ class DatabaseConstants private constructor(){
         const val DATABASE_NAME = "pokedexDB"
         const val VERSION = 1
         const val POKEMON_TABLE = "Pokemon"
-
+        const val SPRITES_TABLE = "Sprites"
     }
 
 }

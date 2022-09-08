@@ -1,44 +1,38 @@
 package com.example.pokedexfanservice.adapter
 
-import android.content.Context
-import android.content.Intent
+import android.graphics.BitmapFactory
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pokedexfanservice.R
+import com.example.pokedexfanservice.database.PokedexDatabase
+import com.example.pokedexfanservice.databinding.FragmentPokedexViewBinding
 import com.example.pokedexfanservice.databinding.RecycleViewItemBinding
-import com.example.pokedexfanservice.model.tablemodel.PokemonTableModel
-import com.example.pokedexfanservice.view.DetailsActivityView
+import com.example.pokedexfanservice.model.PokemonTableModel
+import com.example.pokedexfanservice.model.SpritesTableModel
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class PokedexViewHolder(private val binding: RecycleViewItemBinding) : RecyclerView.ViewHolder(binding.root) {
+class PokedexViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
+    fun onBind(sprite: SpritesTableModel) {
 
-    fun onClickListener(pokemon : PokemonTableModel, context: Context){
-
-        val intent = Intent(context,DetailsActivityView::class.java)
-        intent.putExtra("id",pokemon.id)
-        intent.putExtra("name",pokemon.name)
-        intent.putExtra("front",pokemon.front_default)
-        intent.putExtra("artwork",pokemon.official_artwork)
-        intent.putExtra("type1",pokemon.firstType)
-        intent.putExtra("type2",pokemon.secondType)
-
-        binding.imagePokemonSprite.setOnClickListener {
-
-            context.startActivity(intent)
-        }
-
-    }
-
-    fun setItemImage(pokemon: PokemonTableModel){
-
-        Picasso.get().load(pokemon.front_default).resize(300,300).into(
-            binding.imagePokemonSprite
+        val imageView = view.findViewById<ImageView>(R.id.image_pokemon_sprite)
+        val textView = view.findViewById<TextView>(R.id.text_row_pokemon_id)
+        val bitmap = BitmapFactory.decodeByteArray(
+            sprite.front_default,0,sprite.front_default.size
         )
 
+        imageView.setImageBitmap(bitmap)
 
-        binding.textRowPokemonId.text =
-            if(pokemon.id < 10) "00" + pokemon.id.toString()
-            else if (pokemon.id < 100) "0" + pokemon.id.toString()
-            else pokemon.id.toString()
+        textView.text =
+            if(sprite.id < 10) "00" + sprite.id.toString()
+            else if (sprite.id < 100) "0" + sprite.id.toString()
+            else sprite.id.toString()
 
     }
 

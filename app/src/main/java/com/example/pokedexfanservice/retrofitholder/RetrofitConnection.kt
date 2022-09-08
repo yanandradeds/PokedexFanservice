@@ -34,10 +34,3 @@ class RetrofitConnection private constructor() {
 
 
 }
-
-interface Service {
-
-    @GET("{id}")
-    fun getData(@Path("id") id: String) : Call<PokemonModel>
-
-}

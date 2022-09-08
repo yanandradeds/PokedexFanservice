@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/pokedexFragment"
+        android:title="Pokedex"
+        android:icon="@drawable/ic_pokemon"/>
+
+    <item
+        android:id="@+id/typesFragment"
+        android:title="Tipos"
+        android:icon="@drawable/ic_types"/>
+
+    <item
+        android:id="@+id/movesFragment"
+        android:title="Golpes"
+        android:icon="@drawable/ic_moves"/>
+
+</menu>
