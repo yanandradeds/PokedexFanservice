@@ -1,5 +1,7 @@
 package com.example.pokedexfanservice.adapter
 
+import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -8,8 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedexfanservice.R
 import com.example.pokedexfanservice.constants.TypeImageConstants
 import com.example.pokedexfanservice.constants.Types
-import com.example.pokedexfanservice.databinding.ItemRowTypesFragmentBinding
+
+import com.example.pokedexfanservice.view.TypesFilterActivityView
 import com.example.pokedexfanservice.view.TypesFragmentView
+
 
 class TypesViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
@@ -23,6 +27,9 @@ class TypesViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         textView.text = Types.values()[pos].toString()
 
         imageView.setOnClickListener {
+            val intent = Intent(view.context,TypesFilterActivityView::class.java)
+            intent.putExtra("enum",Types.values()[pos])
+            view.context.startActivity(intent)
 
         }
     }

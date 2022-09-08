@@ -28,4 +28,9 @@ class TypesFragmentView : Fragment() {
         return thisView
     }
 
+    companion object {
+
+        val fragment = TypesFragmentView()
+
+    }
 }

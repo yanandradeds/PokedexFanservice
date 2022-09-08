@@ -12,10 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PokedexFanservice">
         <activity
-            android:name=".FilterActivityView"
-            android:exported="false"
-            android:label="@string/title_activity_filter_view"
-            android:theme="@style/Theme.PokedexFanservice.NoActionBar" />
+            android:name=".view.TypesFilterActivityView"
+            android:exported="false" />
         <activity
             android:name=".view.LoadingActivity"
             android:exported="true"
@@ -29,7 +27,7 @@
         </activity>
         <activity
             android:name=".view.MainActivityView"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>

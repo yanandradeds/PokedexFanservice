@@ -29,6 +29,9 @@ interface PokedexDAO {
     @Query("SELECT * FROM Sprites")
     suspend fun getSpriteAll(): List<SpritesTableModel>
 
+    @Query("SELECT * FROM Pokemon WHERE firstType = :type OR secondType = :type")
+    suspend fun getFiltered(type: String): List<PokemonTableModel>
+
     @Query("DELETE FROM Pokemon WHERE id > 151")
     fun delete(): Int
 }

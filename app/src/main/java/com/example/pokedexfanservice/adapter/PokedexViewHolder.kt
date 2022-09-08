@@ -1,21 +1,13 @@
 package com.example.pokedexfanservice.adapter
 
 import android.graphics.BitmapFactory
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedexfanservice.R
-import com.example.pokedexfanservice.database.PokedexDatabase
-import com.example.pokedexfanservice.databinding.FragmentPokedexViewBinding
-import com.example.pokedexfanservice.databinding.RecycleViewItemBinding
-import com.example.pokedexfanservice.model.PokemonTableModel
 import com.example.pokedexfanservice.model.SpritesTableModel
-import com.squareup.picasso.Picasso
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+
 
 class PokedexViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
