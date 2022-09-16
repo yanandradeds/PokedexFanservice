@@ -5,6 +5,10 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.ActionOnlyNavDirections
 import androidx.navigation.findNavController
@@ -14,6 +18,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.pokedexfanservice.R
+import com.example.pokedexfanservice.database.PokedexDatabase
 import com.example.pokedexfanservice.databinding.ActivityMainViewBinding
 
 import com.example.pokedexfanservice.viewmodel.MainActivityViewModel

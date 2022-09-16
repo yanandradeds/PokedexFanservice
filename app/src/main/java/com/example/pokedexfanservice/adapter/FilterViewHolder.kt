@@ -6,8 +6,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedexfanservice.R
-import com.example.pokedexfanservice.model.PokemonTableModel
-import com.example.pokedexfanservice.model.SpritesTableModel
+import com.example.pokedexfanservice.database.tables.PokemonTableModel
+import com.example.pokedexfanservice.database.tables.SpritesTableModel
 
 class FilterViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
 

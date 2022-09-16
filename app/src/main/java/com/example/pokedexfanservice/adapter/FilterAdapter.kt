@@ -4,11 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedexfanservice.R
-import com.example.pokedexfanservice.databinding.RowItemFilteredActivityBinding
-import com.example.pokedexfanservice.model.PokemonTableModel
-import com.example.pokedexfanservice.model.SpritesTableModel
+import com.example.pokedexfanservice.database.tables.PokemonTableModel
+import com.example.pokedexfanservice.database.tables.SpritesTableModel
 
-class FilterAdapter(sprites: List<SpritesTableModel>,pokemons: List<PokemonTableModel>): RecyclerView.Adapter<FilterViewHolder>() {
+class FilterAdapter(sprites: List<SpritesTableModel>, pokemons: List<PokemonTableModel>): RecyclerView.Adapter<FilterViewHolder>() {
 
     private val listPokemon = pokemons
     private val listSprite = sprites

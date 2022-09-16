@@ -1,20 +1,21 @@
 package com.example.pokedexfanservice.view
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.LiveData
 
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.pokedexfanservice.R
-import com.example.pokedexfanservice.databinding.ActivityLoadingBinding
-import com.example.pokedexfanservice.model.PokemonTableModel
+import com.example.pokedexfanservice.database.PokedexDatabase
 import com.example.pokedexfanservice.viewmodel.LoadingViewModel
-import java.util.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoadingActivity : AppCompatActivity() {
 
@@ -26,15 +27,20 @@ class LoadingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_loading)
 
         val intent = Intent(this,MainActivityView::class.java)
-
         viewModel = ViewModelProvider(this).get(LoadingViewModel::class.java)
 
-        if(requestData()) startActivity(intent)
+
+        viewModel.viewModelScope.launch(Dispatchers.Main){
+            viewModel.getDataFromApi()
+            startActivity(intent)
+        }
     }
 
-    fun requestData(): Boolean {
+    override fun onStop() {
+        super.onStop()
 
-        return viewModel.getDataFromApi()
-
+        viewModel.viewModelScope.launch {
+            if (viewModel.checkIfContentExists()) finish()
+        }
     }
 }

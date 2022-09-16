@@ -2,15 +2,17 @@ package com.example.pokedexfanservice.viewmodel
 
 import android.app.Application
 import android.graphics.Bitmap
+import android.text.BoringLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.pokedexfanservice.database.PokedexDatabase
+import com.example.pokedexfanservice.database.tables.MovesTableModel
+import com.example.pokedexfanservice.model.MovesModel
 import com.example.pokedexfanservice.model.PokemonModel
-import com.example.pokedexfanservice.model.PokemonTableModel
-import com.example.pokedexfanservice.model.SpritesTableModel
+import com.example.pokedexfanservice.database.tables.PokemonTableModel
+import com.example.pokedexfanservice.database.tables.SpritesTableModel
 import com.example.pokedexfanservice.retrofitholder.RetrofitConnection
 import com.example.pokedexfanservice.retrofitholder.Service
 import com.squareup.picasso.Picasso
@@ -22,78 +24,115 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import kotlin.Exception
-import kotlin.properties.Delegates
 
 class LoadingViewModel(application: Application) : AndroidViewModel(application) {
 
     private val database = PokedexDatabase.getDataBase(application).getDAOInterface()
     private val app = application
 
-    fun getDataFromApi(): Boolean {
+    suspend fun getDataFromApi() {
 
-        return try {
+        try {
+
             val retrofitBuild = RetrofitConnection.singleton().create(Service::class.java)
+            val callbackForMoves = object : Callback<MovesModel> {
+                override fun onResponse(
+                    call: Call<MovesModel>,
+                    response: Response<MovesModel>
+                ) {
+                    val body = response.body()!!
 
-            viewModelScope.launch {
-                if (database.getSprite(151) == null) {
-                    for (n in 1..151) {
-                        retrofitBuild.getData(n).enqueue(CallbackHolder())
+                    viewModelScope.launch(Dispatchers.IO) {
+
+                        val move = MovesTableModel().apply {
+                            id = body.id
+                            name = body.name
+                            pp = body.pp
+                            power = body.pp
+                            accuracy = body.accuracy
+                            type = body.type.typeName
+                        }
+
+                        database.insertMove(move)
                     }
                 }
-            }
-
-            true
-        } catch (e: Exception) {
-            Toast.makeText(app, "Getting data failed", Toast.LENGTH_SHORT).show()
-            false
-        }
-
-    }
-
-
-    private inner class CallbackHolder() : Callback<PokemonModel> {
-
-        override fun onResponse(call: Call<PokemonModel>, response: Response<PokemonModel>) {
-
-            val body = response.body()!!
-
-            viewModelScope.launch {
-
-                database.insert(PokemonTableModel().apply {
-                    id = body.id
-                    name = body.name
-                    firstType = body.typeModel[0].typeName.name
-                    if (body.typeModel.size == 2) secondType = body.typeModel[1].typeName.name
-                })
-
-                withContext(Dispatchers.IO) {
-                    val outputFront = ByteArrayOutputStream()
-                    val outputArtwork = ByteArrayOutputStream()
-
-                    val frontSprite: Bitmap =
-                        Picasso.get().load(body.sprites.front_default).get()
-                    val officialSprite: Bitmap = Picasso.get()
-                        .load(body.sprites.other.official_artwork.front_default_artwork).get()
-
-                    frontSprite.compress(Bitmap.CompressFormat.PNG, 100, outputFront)
-                    officialSprite.compress(Bitmap.CompressFormat.PNG, 100, outputArtwork)
-
-                    database.insert(SpritesTableModel().apply {
-                        id = body.id
-                        front_default = outputFront.toByteArray()
-                        official_artwork = outputArtwork.toByteArray()
-
-                    })
+                override fun onFailure(call: Call<MovesModel>, t: Throwable) {
+                    throw t
                 }
             }
 
+            val callbackForPokemons = object : Callback<PokemonModel> {
+                override fun onResponse(
+                    call: Call<PokemonModel>,
+                    response: Response<PokemonModel>
+                ) {
+                    val body = response.body()!!
 
-        }
+                    viewModelScope.launch(Dispatchers.IO) {
 
-        override fun onFailure(call: Call<PokemonModel>, t: Throwable) {
-            throw t
+                        val pokemon = PokemonTableModel().apply {
+                            id = body.id
+                            name = body.name
+                            firstType = body.typeModel[0].typeName.name
+
+                            if (body.typeModel.size == 2) {
+                                secondType = body.typeModel[1].typeName.name
+                            }
+                        }
+
+                        database.insert(pokemon)
+
+                        val outputFront = ByteArrayOutputStream()
+                        val outputArtwork = ByteArrayOutputStream()
+
+                        val frontSprite: Bitmap =
+                            Picasso.get().load(body.sprites.front_default).get()
+                        val officialSprite: Bitmap = Picasso.get()
+                            .load(body.sprites.other.official_artwork.front_default_artwork)
+                            .get()
+
+                        frontSprite.compress(Bitmap.CompressFormat.PNG, 50, outputFront)
+                        officialSprite.compress(Bitmap.CompressFormat.PNG, 100, outputArtwork)
+
+                        val sprite = SpritesTableModel().apply {
+                            id = body.id
+                            front_default = outputFront.toByteArray()
+                            official_artwork = outputArtwork.toByteArray()
+                        }
+
+                        database.insert(sprite)
+
+                    }
+                }
+
+                override fun onFailure(call: Call<PokemonModel>, t: Throwable) {
+                    throw t
+                }
+            }
+
+            if (checkIfContentExists()) return
+
+            for (n in 1..151) {
+
+                retrofitBuild.getData(n).enqueue(callbackForPokemons)
+
+            }
+            for (n in 1..165) {
+                retrofitBuild.getMoves(n).enqueue(callbackForMoves)
+            }
+
+        } catch (e: Exception) {
+            Toast.makeText(app, "Getting data failed", Toast.LENGTH_SHORT).show()
+            e.printStackTrace()
+
         }
 
     }
+
+    suspend fun checkIfContentExists() : Boolean {
+        val pokemon = database.get(151)
+        return pokemon.id == 151
+    }
+
 
 }

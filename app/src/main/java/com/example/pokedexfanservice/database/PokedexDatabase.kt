@@ -5,10 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.pokedexfanservice.constants.DatabaseConstants
-import com.example.pokedexfanservice.model.PokemonTableModel
-import com.example.pokedexfanservice.model.SpritesTableModel
+import com.example.pokedexfanservice.database.tables.MovesTableModel
+import com.example.pokedexfanservice.database.tables.PokemonTableModel
+import com.example.pokedexfanservice.database.tables.SpritesTableModel
 
-@Database(entities = [PokemonTableModel::class, SpritesTableModel::class], version = DatabaseConstants.VERSION)
+@Database(entities = [PokemonTableModel::class, SpritesTableModel::class, MovesTableModel::class], version = DatabaseConstants.VERSION)
 abstract class PokedexDatabase : RoomDatabase() {
 
     abstract fun getDAOInterface() : PokedexDAO

@@ -1,16 +1,11 @@
 package com.example.pokedexfanservice.viewmodel
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.pokedexfanservice.constants.Types
 import com.example.pokedexfanservice.database.PokedexDatabase
-import com.example.pokedexfanservice.model.PokemonTableModel
-import com.example.pokedexfanservice.model.SpritesTableModel
-import kotlinx.coroutines.launch
-import java.util.*
+import com.example.pokedexfanservice.database.tables.PokemonTableModel
+import com.example.pokedexfanservice.database.tables.SpritesTableModel
 
 class TypesFilterViewModel(application: Application): AndroidViewModel(application) {
 

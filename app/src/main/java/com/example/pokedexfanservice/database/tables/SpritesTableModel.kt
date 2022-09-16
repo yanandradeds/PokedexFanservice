@@ -1,4 +1,4 @@
-package com.example.pokedexfanservice.model
+package com.example.pokedexfanservice.database.tables
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

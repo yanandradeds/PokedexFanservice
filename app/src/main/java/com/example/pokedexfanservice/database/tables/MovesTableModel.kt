@@ -1,26 +1,25 @@
-package com.example.pokedexfanservice.model
+package com.example.pokedexfanservice.database.tables
 
-import androidx.annotation.Nullable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.pokedexfanservice.constants.DatabaseConstants
-import java.sql.Blob
 
-@Entity(tableName = DatabaseConstants.POKEMON_TABLE)
-class PokemonTableModel {
+@Entity(tableName = DatabaseConstants.MOVES_TABLE)
+class MovesTableModel {
 
-    @ColumnInfo
     @PrimaryKey
+    @ColumnInfo
     var id: Int = 0
-
     @ColumnInfo
     var name: String = ""
-
     @ColumnInfo
-    var firstType: String = ""
-
+    var power: Int = 0
     @ColumnInfo
-    var secondType: String? = ""
+    var pp: Int = 0
+    @ColumnInfo
+    var accuracy: Int = 0
+    @ColumnInfo
+    var type: String = ""
 
 }

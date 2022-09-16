@@ -21,8 +21,10 @@ data class PokemonModel(
     val sprites: SpriteModel,
 
     @SerializedName("types")
-    val typeModel : List<TypeModel>
+    val typeModel : List<TypeModel>,
 
+    @SerializedName("moves")
+    val moves: List<MovesPokemonModel>
     )
 
 
