@@ -5,11 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import androidx.navigation.ActionOnlyNavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -25,6 +21,7 @@ import com.example.pokedexfanservice.viewmodel.MainActivityViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarMenuView
 import com.google.android.material.navigation.NavigationBarView
+import kotlinx.coroutines.launch
 
 
 class MainActivityView() : AppCompatActivity(){
@@ -36,7 +33,7 @@ class MainActivityView() : AppCompatActivity(){
         setContentView(R.layout.activity_main_view)
 
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-
+        val database = PokedexDatabase.getDataBase(this).getDAOInterface()
         supportActionBar?.hide()
 
         val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment

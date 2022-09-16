@@ -33,7 +33,7 @@ interface PokedexDAO {
     @Query("SELECT * FROM Pokemon")
     suspend fun getAll() : List<PokemonTableModel>
 
-    @Query("SELECT * FROM Pokemon WHERE id = 151")
+    @Query("SELECT * FROM Pokemon")
     fun livedataDB() : LiveData<PokemonTableModel>
 
     @Query("SELECT * FROM Sprites")

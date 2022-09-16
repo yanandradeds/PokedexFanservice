@@ -55,7 +55,7 @@ class PokedexFragmentViewModel(context: Context): ViewModel() {
         return pokedexAdapter
     }
 
-    suspend fun getLiveData(): LiveData<PokemonTableModel>{
+    fun getLiveData(): LiveData<PokemonTableModel>{
         return database.livedataDB()
     }
 

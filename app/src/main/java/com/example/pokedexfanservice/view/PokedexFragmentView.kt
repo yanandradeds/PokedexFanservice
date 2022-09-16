@@ -39,7 +39,8 @@ class PokedexFragmentView() : Fragment() {
             recyclerView.adapter = adapter
 
             viewModel.getLiveData().observe(viewLifecycleOwner, Observer {
-                adapter.notifyDataSetChanged()
+                adapter.notifyItemInserted(it.id-1)
+
             })
 
         }
