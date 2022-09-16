@@ -30,11 +30,17 @@ class LoadingActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(LoadingViewModel::class.java)
 
 
-        viewModel.viewModelScope.launch(Dispatchers.IO){
+        viewModel.viewModelScope.launch(Dispatchers.Main){
             viewModel.getDataFromApi()
             startActivity(intent)
-            finish()
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+
+        viewModel.viewModelScope.launch {
+            if (viewModel.checkIfContentExists()) finish()
+        }
+    }
 }

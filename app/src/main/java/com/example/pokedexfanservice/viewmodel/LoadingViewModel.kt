@@ -110,7 +110,7 @@ class LoadingViewModel(application: Application) : AndroidViewModel(application)
                 }
             }
 
-
+            if (checkIfContentExists()) return
 
             for (n in 1..151) {
 
@@ -128,5 +128,11 @@ class LoadingViewModel(application: Application) : AndroidViewModel(application)
         }
 
     }
+
+    suspend fun checkIfContentExists() : Boolean {
+        val pokemon = database.get(151)
+        return pokemon.id == 151
+    }
+
 
 }
