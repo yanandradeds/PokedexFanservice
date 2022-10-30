@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Sistemas para Restaurantes</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="account_user">Usuário</string>
+    <string name="account_password">Senha</string>
+    <string name="account_enter">Entrar</string>
+    <string name="account_exampletitle">Seu Restaurante</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Usuário deve possuir ao menos 5 caracteres</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+</resources>
