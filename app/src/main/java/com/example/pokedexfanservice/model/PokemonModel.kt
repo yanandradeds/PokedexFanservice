@@ -1,13 +1,6 @@
 package com.example.pokedexfanservice.model
 
-
-
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-import org.jetbrains.annotations.NotNull
 
 data class PokemonModel(
 
@@ -18,31 +11,34 @@ data class PokemonModel(
     val name: String,
 
     @SerializedName("sprites")
-    val sprites: SpriteModel,
+    val spritesHeadTree: SpritesHeadTree,
 
     @SerializedName("types")
     val typeModel : List<TypeModel>,
 
     @SerializedName("moves")
-    val moves: List<MovesPokemonModel>
+    val moves: List<MovesPokemonModel>,
+
+    @SerializedName("stats")
+    val stats: List<StatsHeadTree>
     )
 
 
-data class SpriteModel(
-    @SerializedName("front_default")
-    val front_default: String,
+data class SpritesHeadTree(
     @SerializedName("other")
-    val other : OtherModel
+    val spritesList : SpritesList
+
     )
 
-data class OtherModel (
+
+data class SpritesList (
     @SerializedName("official-artwork")
-    val official_artwork : OfficialArtwork
+    val spriteOfficial: SpriteOfficial
     )
 
-data class OfficialArtwork(
+data class SpriteOfficial(
     @SerializedName("front_default")
-    val front_default_artwork: String
+    val urlSprite: String
 )
 
 data class TypeModel(
@@ -56,5 +52,10 @@ data class TypeModel(
 data class TypeNameModel(
     @SerializedName("name")
     val name: String
+)
+
+data class StatsHeadTree(
+    @SerializedName("base_stat")
+    val valueStat: Int,
 )
 

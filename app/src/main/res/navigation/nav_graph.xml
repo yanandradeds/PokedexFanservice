@@ -8,13 +8,13 @@
 
     <fragment
         android:id="@+id/typesFragmentView"
-        android:name="com.example.pokedexfanservice.view.TypesFragmentView"
+        android:name="com.example.pokedexfanservice.ui.view.TypesFragmentView"
         android:label="fragment_types_view"
         tools:layout="@layout/fragment_types_view" />
 
     <fragment
         android:id="@+id/pokedexFragmentView"
-        android:name="com.example.pokedexfanservice.view.PokedexFragmentView"
+        android:name="com.example.pokedexfanservice.ui.view.PokemonFragment"
         android:label="PokedexFragmentView"
         tools:layout="@layout/fragment_pokedex_view"
         >
@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/detailsFragmentView"
-        android:name="com.example.pokedexfanservice.view.DetailsFragmentView"
+        android:name="com.example.pokedexfanservice.ui.view.DetailsFragmentView"
         android:label="DetailsFragmentView"
         tools:layout="@layout/fragment_details_view"/>
 

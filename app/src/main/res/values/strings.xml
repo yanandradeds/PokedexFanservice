@@ -12,4 +12,8 @@
     <string name="previous">Previous</string>
     <string name="title_activity_filter_view">FilterActivityView</string>
     <string name="example">EXAMPLE</string>
+
+    <string name="pokemon_fragment_tile_under10">00%d %s</string>
+    <string name="pokemon_fragment_tile_under100">0%d %s</string>
+    <string name="pokemon_fragment_tile_over99">%d %s</string>
 </resources>
