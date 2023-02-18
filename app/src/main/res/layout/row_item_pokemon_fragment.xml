@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:layout_width="100dp"
-    android:layout_height="120dp"
+    android:layout_width="120dp"
+    android:layout_height="140dp"
+    android:background="@color/primary_container_blue"
     >
 
     <TextView
@@ -15,27 +16,17 @@
         android:gravity="center_horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/example"
+        android:textColor="@color/on_primary_container_blue"
         />
 
     <ImageView
         android:id="@+id/imageview_pokemon_sprite"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview_title_pokemon"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
-
-    <ProgressBar
-        android:id="@+id/progessbar_circle"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:indeterminate="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_title_pokemon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:visibility="invisible"
-        android:indeterminateDrawable="@drawable/pb_background"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

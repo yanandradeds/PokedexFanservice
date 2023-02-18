@@ -8,10 +8,14 @@ import com.example.pokedexfanservice.appconstants.DatabaseConstants
 
 @Entity(tableName = DatabaseConstants.TYPE_TABLE)
 data class DatabaseTypeModel (
-    @PrimaryKey
+    @ColumnInfo
     val pokemonID: Int,
     @ColumnInfo
     val type: String,
     @ColumnInfo
     val secondType: String
-        )
+        ) {
+
+    @PrimaryKey(autoGenerate = true)
+    var idBaseStats: Int = 0
+}

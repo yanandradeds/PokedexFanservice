@@ -12,7 +12,7 @@ data class DatabasePokemonModel(
     @ColumnInfo
     var name: String,
     @ColumnInfo
-    val sprite: ByteArray,
+    val sprite: ByteArray
 )
 
 

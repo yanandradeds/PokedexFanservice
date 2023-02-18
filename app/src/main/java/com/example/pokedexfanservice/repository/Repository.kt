@@ -13,6 +13,7 @@ import com.example.pokedexfanservice.retrofitholder.RetrofitClient
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,38 +39,80 @@ class Repository private constructor(context: Context){
         return database.getPokemons()
     }
 
+    suspend fun getPokemonList(): List<DatabasePokemonModel> {
+        return withContext(Dispatchers.IO) {
+            database.getPokemonsList()
+        }
+    }
+
     fun requestingData(viewModel: ViewModel) {
+        pokemonDataHolder(viewModel)
+        moveDataHolder(viewModel)
+    }
 
-        for (i in 1..151){
+    suspend fun listPokemonFilteredByType(type: String): List<DatabasePokemonModel>{
+        return withContext(Dispatchers.IO) {
+            val listTypeModel = database.filterListByType(type)
+            val listPokemonModel = arrayListOf<DatabasePokemonModel>()
 
-            retrofit.getPokemon(i).enqueue(object : Callback<PokemonModel> {
-                override fun onResponse(
-                    call: Call<PokemonModel>,
-                    response: Response<PokemonModel>
-                ) {
-                    pokemonModelDataHolder(viewModel,response)
-                    compatibleMovesModelDataHolder(viewModel,response)
-                    typeModelDataHolder(viewModel,response)
-                    baseStatsModelDataHolder(viewModel,response)
+            listTypeModel.forEach {
+                val pokemon = database.getPokemonById(it.pokemonID)
+                listPokemonModel.add(pokemon)
+            }
+
+            listPokemonModel
+        }
+    }
+
+    private fun pokemonDataHolder(viewModel: ViewModel) {
+        viewModel.viewModelScope.launch(Dispatchers.IO) {
+
+            val pokemonContentExist: Boolean = database.lastPokemon() == 151
+
+            if (!pokemonContentExist) {
+                for (i in 1..151) {
+                    retrofit.getPokemon(i).enqueue(object : Callback<PokemonModel> {
+
+                        override fun onResponse(
+                            call: Call<PokemonModel>, response: Response<PokemonModel>
+                        ) {
+                            pokemonModelDataHolder(viewModel, response)
+                            compatibleMovesModelDataHolder(viewModel, response)
+                            typeModelDataHolder(viewModel, response)
+                            baseStatsModelDataHolder(viewModel, response)
+                        }
+
+                        override fun onFailure(call: Call<PokemonModel>, t: Throwable) {
+                            throw t
+                        }
+
+                    })
                 }
-
-                override fun onFailure(call: Call<PokemonModel>, t: Throwable) {
-                    throw t
-                }
-
-            })
+            }
 
         }
-        for (moveID in 1..165){
-            retrofit.getMove(moveID).enqueue(object : Callback<MovesModel>{
-                override fun onResponse(call: Call<MovesModel>, response: Response<MovesModel>) {
-                    moveModelDataHolder(viewModel, response)
+    }
+
+    private fun moveDataHolder(viewModel: ViewModel) {
+        viewModel.viewModelScope.launch(Dispatchers.IO) {
+
+            val moveContentExist: Boolean = database.lastMove() == 165
+
+            if (!moveContentExist) {
+
+                for (moveID in 1..165){
+                    retrofit.getMove(moveID).enqueue(object : Callback<MovesModel>{
+                        override fun onResponse(call: Call<MovesModel>, response: Response<MovesModel>) {
+                            moveModelDataHolder(viewModel, response)
+                        }
+
+                        override fun onFailure(call: Call<MovesModel>, t: Throwable) {
+                            throw t
+                        }
+                    })
                 }
 
-                override fun onFailure(call: Call<MovesModel>, t: Throwable) {
-                    throw t
-                }
-            })
+            }
         }
     }
 
@@ -148,17 +191,20 @@ class Repository private constructor(context: Context){
 
     private fun compatibleMovesModelDataHolder(viewModel: ViewModel, response: Response<PokemonModel>) {
         val body = response.body()!!
-        var moveID = 0
+        var mMoveID = 0
 
         body.moves.forEach {
             val movePathID = it.move.url.split("/").toMutableList()
             movePathID.removeLast()
-            moveID = movePathID.last().toInt()
+            mMoveID = movePathID.last().toInt()
         }
 
         viewModel.viewModelScope.launch(Dispatchers.IO){
             database.insert(
-                DatabaseCompatibleMovesModel(body.id,moveID)
+                DatabaseCompatibleMovesModel().apply {
+                    pokemonID = body.id
+                    moveID = mMoveID
+                }
             )
         }
     }

@@ -9,39 +9,54 @@ import com.example.pokedexfanservice.repository.model.DatabasePokemonModel
 
 class PokemonFragmentViewHolder(private val binding: RowItemPokemonFragmentBinding): RecyclerView.ViewHolder(binding.root) {
 
-    fun setText(pokemon: DatabasePokemonModel){
-        if(pokemon.id < 10) {
-            val text = binding.root.context.getString(
-                R.string.pokemon_fragment_tile_under10,
-                pokemon.id,
-                pokemon.name.replaceFirstChar { it.uppercase() }
-            )
-
-            binding.textviewTitlePokemon.text = text
-        } else if(pokemon.id < 100) {
-            val text = binding.root.context.getString(
-                R.string.pokemon_fragment_tile_under100,
-                pokemon.id,
-                pokemon.name.replaceFirstChar { it.uppercase() }
-            )
-
-            binding.textviewTitlePokemon.text = text
-
+    fun setVisualsComponentsRecyclerViewsRow(pokemon: DatabasePokemonModel){
+        if (visualComponentIsNotNull(pokemon)){
+            setImage(pokemon)
+            setText(pokemon)
         } else {
-            val text = binding.root.context.getString(
-                R.string.pokemon_fragment_tile_over99,
-                pokemon.id,
-                pokemon.name.replaceFirstChar { it.uppercase() }
-            )
-
-            binding.textviewTitlePokemon.text = text
+            enableProgressBar()
         }
 
-        val bitmap = BitmapFactory.decodeByteArray(pokemon.sprite, 0,pokemon.sprite.size)
+    }
+
+    private fun visualComponentIsNotNull(content: DatabasePokemonModel): Boolean{
+        return content.name != "" || content.sprite.any()
+    }
+
+    private fun setImage(actualPokemonModel: DatabasePokemonModel) {
+        val bitmap = BitmapFactory.decodeByteArray(actualPokemonModel.sprite, 0,
+            actualPokemonModel.sprite.size)
         binding.imageviewPokemonSprite.setImageBitmap(bitmap)
     }
 
+    private fun setText(actualPokemonModel: DatabasePokemonModel) {
+        var text = ""
+
+        if(actualPokemonModel.id < 10) {
+            text = binding.root.context.getString(
+                R.string.pokemon_fragment_tile_under10,
+                actualPokemonModel.id,
+                actualPokemonModel.name.replaceFirstChar { it.uppercase() }
+            )
+        }
+        else if(actualPokemonModel.id < 100) {
+            text = binding.root.context.getString(
+                R.string.pokemon_fragment_tile_under100,
+                actualPokemonModel.id,
+                actualPokemonModel.name.replaceFirstChar { it.uppercase() }
+            )
+        }
+        else {
+            text = binding.root.context.getString(
+                R.string.pokemon_fragment_tile_over99,
+                actualPokemonModel.id,
+                actualPokemonModel.name.replaceFirstChar { it.uppercase() }
+            )
+        }
+        binding.textviewTitlePokemon.text = text
+    }
+
     fun enableProgressBar() {
-        binding.progessbarCircle.visibility = View.VISIBLE
+        //binding.progessbarCircle.visibility = View.VISIBLE
     }
 }

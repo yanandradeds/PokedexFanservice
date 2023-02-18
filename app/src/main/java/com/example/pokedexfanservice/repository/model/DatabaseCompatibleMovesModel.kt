@@ -6,9 +6,13 @@ import androidx.room.PrimaryKey
 import com.example.pokedexfanservice.appconstants.DatabaseConstants
 
 @Entity(tableName = DatabaseConstants.COMPATIBLE_MOVES_TABLE)
-data class DatabaseCompatibleMovesModel (
-    @PrimaryKey
-    val pokemonID: Int,
+class DatabaseCompatibleMovesModel {
+    @PrimaryKey(autoGenerate = true)
+    var compatibleTableID: Int = 0
+
     @ColumnInfo
-    val moveID: Int
-        )
+    var pokemonID: Int = 0
+
+    @ColumnInfo
+    var moveID: Int = 0
+}

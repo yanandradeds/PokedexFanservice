@@ -3,22 +3,34 @@ package com.example.pokedexfanservice.ui.recyclerview.viewholder
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedexfanservice.R
 import com.example.pokedexfanservice.appconstants.TypeImageConstants
 import com.example.pokedexfanservice.appconstants.Types
+import com.example.pokedexfanservice.databinding.RowItemTypesFragmentBinding
+import com.example.pokedexfanservice.ui.view.PokemonFragmentDirections
+import com.example.pokedexfanservice.ui.view.PokemonTypesFilteredFragment
+import com.example.pokedexfanservice.ui.view.TypesFragmentDirections
 
 
-class TypesViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-
+class TypesViewHolder(private val bind: RowItemTypesFragmentBinding) : RecyclerView.ViewHolder(bind.root) {
 
     fun bind(pos: Int) {
-
-        val textView = view.findViewById<TextView>(R.id.text_title_types)
-        val imageView = view.findViewById<ImageView>(R.id.image_types)
-
-        imageView.setImageResource(TypeImageConstants.resourceImageType(Types.values()[pos]))
-        textView.text = Types.values()[pos].toString()
+        bind.imageTypes.setImageResource(TypeImageConstants.resourceImageType(Types.values()[pos]))
+        bind.textTitleTypes.text = Types.values()[pos].toString()
 
     }
+
+    fun setOnClick(controller: NavController, pos: Int) {
+        var type: String = Types.values()[pos].toString()
+        val action = TypesFragmentDirections.actionTypesFragmentViewToPokemonTypesFilteredFragment(type)
+
+        bind.imageTypes.setOnClickListener(View.OnClickListener {
+            controller.navigate(action)
+        })
+
+    }
+
+
 }

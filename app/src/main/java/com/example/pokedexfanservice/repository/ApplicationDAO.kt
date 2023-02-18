@@ -28,4 +28,18 @@ interface ApplicationDAO {
     @Query("SELECT * FROM Pokemon")
     fun getPokemons(): LiveData<List<DatabasePokemonModel>>
 
+    @Query("SELECT * FROM Pokemon")
+    fun getPokemonsList(): List<DatabasePokemonModel>
+
+    @Query("SELECT * From Pokemon Where id = :id")
+    fun getPokemonById(id: Int): DatabasePokemonModel
+
+    @Query("SELECT * FROM Type WHERE type = :type")
+    fun filterListByType(type: String): List<DatabaseTypeModel>
+
+    @Query("SELECT pathID FROM Move WHERE pathID = 165")
+    fun lastMove(): Int?
+
+    @Query("SELECT id FROM Pokemon WHERE id = 151")
+    fun lastPokemon(): Int?
 }
